@@ -1,17 +1,12 @@
 import { Router } from "express";
+import { createOrder, captureOrder, cancelOrder } from "../controllers/payment.controller.js";
 
 const router = Router()
 
-router.get('/create-order', (req, res) => {
-    res.send('order created!');
-});
+router.get('/create-order', createOrder);
 
-router.get('/capture-order', (req, res) => {
-    res.send('order captured!');
-});
+router.get('/capture-order', captureOrder);
 
-router.get('/cancel-order', (req, res) => {
-    res.send('order canceled!');
-});
+router.get('/cancel-order', cancelOrder);
 
 export default router
