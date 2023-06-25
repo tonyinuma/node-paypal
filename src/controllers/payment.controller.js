@@ -1,4 +1,4 @@
-import { HOST, PAYPAL_API } from "../common.js";
+import { HOST, PAYPAL_API, PAYPAL_API_CLIENT_ID, PAYPAL_API_SECRET_ID } from "../common.js";
 import { authTokenPaypal } from "../utils/paypal.js";
 import axios from "axios";
 
@@ -36,8 +36,17 @@ export const createOrder = async (req, res) => {
     return res.redirect(href);
 }
 
-export const captureOrder = (req, res) => {
-    res.send('order captured!');
+export const captureOrder = async (req, res) => {
+    const { token } = req.query;
+
+    const { data: { status } } = await axios.post(`${PAYPAL_API}/v2/checkout/orders/${token}/capture`, {}, {
+        auth: {
+            username: PAYPAL_API_CLIENT_ID,
+            password: PAYPAL_API_SECRET_ID
+        }
+    });
+
+    res.send(status);
 }
 
 export const cancelOrder = (req, res) => {
